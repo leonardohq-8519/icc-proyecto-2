@@ -8,8 +8,6 @@ import os
 
 digits = sklearn.datasets.load_digits()
 
-print(digits.keys())
-
 data = digits.data
 labels = digits["target"]
 
@@ -48,9 +46,9 @@ while True:
     for i in neighbours[0]:
         targets.add(digits["target"][i])
     
-    if len(targets) > (n//2):
+    if len(targets) == n:
         done = False
-        print(f"Current predicted label is: {predicted}.\nDo you want to try again with one more neighbour? Y/N")
+        print(f"Con los vecinos actuales, pese a ser todos distintos, he detectado que el digito ingresado corresponde a: {predicted}.\n¿Quieres intentarlo nuevamente con un vecino más? Y/N")
         while True:
             ans = input().strip().lower()
             if ans == "n":
@@ -62,9 +60,9 @@ while True:
             break
     else:
         break
-print("Predicted label:", predicted)
-print("Indices of nearest neighbors:", neighbours[0])
-print("Distances: ",distances)
+print(f"Soy la inteligencia artificial, y he detectado que el dígito ingresado corresponde al número {predicted}.")
+print("Vecinos más cercanos:", neighbours[0])
+print("Distancias: ",distances)
 
 final_df = pd.DataFrame()
 

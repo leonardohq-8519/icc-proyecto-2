@@ -59,7 +59,10 @@ knn = sklearn.neighbors.KNeighborsClassifier(n_neighbors=1)
 knn.fit(list(avg.values()),list(avg.keys()))
 
 predicted = knn.predict([mat_normalized])[0]
-neighbours = knn.kneighbors([mat_normalized],return_distance=False)
+distances,neighbours = knn.kneighbors([mat_normalized],return_distance=True)
 
-print("Predicted label:", predicted)
-print("Indices of nearest neighbors:", neighbours[0])
+print(f"Soy la inteligencia artificial versión 2, y he detectado que el dígito ingresado corresponde al número {predicted}.")
+print("Vecinos más cercanos:", neighbours[0])
+print("Distancias: ",distances)
+
+print(digits["images"][neighbours[0][0]])
