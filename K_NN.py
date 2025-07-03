@@ -68,14 +68,13 @@ while True:
 
 predicted = list(dc.keys())[list(dc.values()).index(max(list(dc.values())))]
 print(f"Soy la inteligencia artificial, y he detectado que el dígito ingresado corresponde al número {predicted}.")
-print("Vecinos más cercanos:", neighbours[0])
+print("Vecinos más cercanos:", neighbours[0],[int(digits["target"][neighbours[0][numero]]) for numero in range(len(neighbours[0]))])
 print("Distancias: ",distances)
 
 final_df = pd.DataFrame()
 
 for numero in range(n):
     matriz = pd.DataFrame(digits["images"][neighbours[0][numero]])
-    print(matriz)
     matriz.columns = [f'C{i}' for i in range(8)]
     matriz.insert(0, "Número", digits["target"][neighbours[0][2]])
     final_df = pd.concat([final_df, matriz], ignore_index=True)
