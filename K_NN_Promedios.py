@@ -42,7 +42,7 @@ imagen = ""
 while True:
     try:
         imagen = int(input(f"Seleccione un archivo: 0 al {len(files)-1}: "))
-        img = f"datasets/n{imagen+1}.png"
+        img = f"datasets/n{imagen}.png"
         if imagen < len(files) and os.path.isfile(img):
             break
     except:

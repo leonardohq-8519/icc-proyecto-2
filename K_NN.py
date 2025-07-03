@@ -19,7 +19,7 @@ imagen = ""
 while True:
     try:
         imagen = int(input(f"Seleccione un archivo: 0 al {len(files)-1}: "))
-        img = f"datasets/n{imagen+1}.png"
+        img = f"datasets/n{imagen}.png"
         if imagen < len(files) and os.path.isfile(img):
             break
     except:
@@ -36,19 +36,23 @@ mat_normalized = ((255-mat_re)/255.0)*16
 n = 3
 
 while True:
-    knn = sklearn.neighbors.KNeighborsClassifier(n_neighbors=3)
+    knn = sklearn.neighbors.KNeighborsClassifier(n_neighbors=n)
     knn.fit(data,labels)
 
-    predicted = knn.predict([mat_normalized])[0]
-    distances,neighbours = knn.kneighbors([mat_normalized],return_distance=True)
+    distances,neighbours = knn.kneighbors([mat_normalized],return_distance=True,n_neighbors=n)
 
-    targets = set()
+    targets = []
     for i in neighbours[0]:
-        targets.add(digits["target"][i])
+        targets.append(digits["target"][i])
     
-    if len(targets) == n:
+    dc = {}
+
+    for i in targets:
+        dc[i] = targets.count(i)
+
+    if len(dc.keys()) == n:
         done = False
-        print(f"Con los vecinos actuales, pese a ser todos distintos, he detectado que el digito ingresado corresponde a: {predicted}.\n¿Quieres intentarlo nuevamente con un vecino más? Y/N")
+        print(f"Con los vecinos actuales, pese a ser todos distintos, he detectado que el digito ingresado corresponde a: {list(dc.keys())[0]}.\n¿Quieres intentarlo nuevamente con un vecino más? Y/N")
         while True:
             ans = input().strip().lower()
             if ans == "n":
@@ -56,10 +60,13 @@ while True:
                 break
             elif ans == "y":
                 n += 1
+                break
         if done:
             break
     else:
         break
+
+predicted = list(dc.keys())[list(dc.values()).index(max(list(dc.values())))]
 print(f"Soy la inteligencia artificial, y he detectado que el dígito ingresado corresponde al número {predicted}.")
 print("Vecinos más cercanos:", neighbours[0])
 print("Distancias: ",distances)
